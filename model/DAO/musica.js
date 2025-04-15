@@ -50,7 +50,6 @@ const insertMusica = async function(musica){
 
     
 
-
 }
 
 //função para atualizar uma musica existente 

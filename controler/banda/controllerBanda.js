@@ -10,9 +10,9 @@ const message = require('../../modulo/config.js')
 const bandaDAO = require('../../model/DAO/banda.js')
 
 //função para inserir uma banda 
-const inserirBanda = async function (){
+const inserirBanda = async function (banda, contentType){
     try {
-        if(String(contentType).toLowerCase() == 'application/Json'){
+        if(String(contentType).toLowerCase() == 'application/json'){
             if(banda.nome == ''|| banda.nome == null||banda.nome == undefined|| banda.nome.Length > 100 
 
             ){
@@ -39,7 +39,39 @@ const atualizarBanda = async function  (){
 }
 
 //função para deletar uma bandas 
-const excluirBanda = async function (){
+const excluirBanda = async function (id){
+
+    try {
+          if(id == '' || id == null || id == undefined || isNaN(id)){
+                    return message.ERROR_REQUIRED_FIELDS//400
+          }else{
+             
+            let resultBanda = bandaDAO.selectByIdBanda(id)
+
+            if(resultMusica != false || typeof(resultMusica) == 'object'){
+                if(resultBanda.length > 0){
+                    //delete
+
+                    result = bandaDAO.deleteBanda(id)
+
+                    if(result)
+                        return message.SUCESS_DELETE_ITEM//200
+                    else 
+                    return message.ERROR_INTERNAL_SERVER_MODEL//500
+                }else{
+                    return message.ERROR_NOT_FOUND//404
+                }
+
+            }else{
+                return message.ERROR_INTERNAL_SERVER_CONTROLLER//500
+            }
+          }
+
+
+
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER//500
+    }
 
 }
 
@@ -53,11 +85,11 @@ const listarBanda = async function (){
 
          if(resultBanda != false || typeof(resultBanda) == 'object' ){
                     if(resultBanda.length > 0){
-                        //cria um json para colocar o array de musicas 
+                        //cria um json para colocar o array de bandas
                         dadosBanda.status = true
                         dadosBanda.status_code = 200,
-                        dadosBanda.items = resultMusica.length
-                        dadosBanda.musics = resultMusica
+                        dadosBanda.items = resultBanda.length
+                        dadosBanda.bandas = resultBanda
                         return dadosBanda
                     }else{
                         return message.ERROR_NOT_FOUND //404
@@ -72,10 +104,36 @@ const listarBanda = async function (){
 
 }
 //função para buscar uma banda pelo ID 
-const buscarBanda = async function (){
+const buscarBanda = async function (id){
+    try {
 
+         if(id == '' || id == undefined || id == null || isNaN(id)){
+                   return message.ERROR_REQUIRED_FIELDS //400
+                }else{
+                    let dadosBanda = {}
+
+                    resultBanda = await bandaDAO.selectByIdBanda(id)
+
+                        if(resultBanda != false || typeof(resultBanda) == 'object'){
+                            if(resultBanda.length > 0 ){
+                            //criacao do json para o array das bandas 
+                            dadosBanda.status = true,
+                            dadosBanda.status_code = 200, 
+                            dadosBanda.bandas = resultBanda
+                            return dadosBanda
+                            }else{
+                               return message.ERROR_NOT_FOUND//404
+                            }                           
+                        }else{
+                            return message.ERROR_INTERNAL_SERVER_MODEL//500
+                        }
+
+
+                }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER//500
 }
-
+}
 
 
 module.exports = {

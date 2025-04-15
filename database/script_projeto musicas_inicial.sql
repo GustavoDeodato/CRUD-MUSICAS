@@ -19,3 +19,9 @@ show tables;
 select * from tbl_musicas;
 
 drop table tbl_musicas;
+
+#criacao tabela banda 
+create table tbl_banda (
+    id int not null primary key auto_increment,
+    nome varchar(100) not null
+); 

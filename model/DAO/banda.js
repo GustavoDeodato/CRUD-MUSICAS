@@ -5,16 +5,18 @@
  * Versão 1.0
  * ********************************************** */
 
+//import biblioteca prisma client para realizar as ações do db
+const {PrismaClient} = require('@prisma/client')
+
 //Instancia da classe do prisma client (cria um objeto)
 const prisma = new PrismaClient
-
 
 //Função para inserir novas bandas
 const insertBanda = async function (banda){
     try {
         let sql = `insert into tbl_banda (nome)
         
-        Values(${banda.nome})`
+        values('${banda.nome}')`
 
     //Executa o script sql no banco de dados e aguarda o resultado (retornando true ou false)
     let result = await prisma.$executeRawUnsafe(sql)
@@ -40,7 +42,9 @@ const updateBanda = async function (){
 //função para deletar uma banda 
 const deleteBanda = async function (){
     try {
-        let sql = ``
+        let sql = `delete from tbl_banda where id = ${id}`
+
+        result = await prisma.$executeRawUnsafe(sql)
     } catch (error) {
         
     }
@@ -64,9 +68,21 @@ const selectAllBanda = async function (){
 }
 
 //função para busca pelo ID 
-const selectByIdBanda = async function (){
+const selectByIdBanda = async function (id){
+    try {
+        let sql = `select * from tbl_banda where id = ${id}`
 
-}
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(result)
+            return result
+        else 
+          return false
+
+    } catch (error) {
+        return false 
+    }
+    }
 
 module.exports = {
     insertBanda,

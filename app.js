@@ -142,6 +142,26 @@ app.get('/v1/controler-musica/banda', cors(), async function (request, response)
     response.status(resultBanda.status_code)
     response.json(resultBanda)
 })
+
+//Endpoint para buscar uma banda pelo ID 
+app.get('/v1/controler-musica/banda/:id', cors(), async function(request, response){
+    let idbanda = request.params.id 
+
+    let resultBanda = await ControllerBanda.buscarBanda(idbanda)
+
+    response.status(resultBanda.status_code)
+    response.json(resultBanda)
+})
+
+//Endpoint para deletar uma banda pelo id 
+app.delete('/v1/controler-musica/banda/:id', cors(), async function(){
+    let idbanda = request.params.id
+
+    let resultBanda = await ControllerBanda.excluirBanda(idbanda)
+
+    response.status(resultBanda.status_code)
+    response.json(resultBanda)
+})
 app.listen('8080', function(){
     console.log('API funcionando e aguardando requisições..')
 })
