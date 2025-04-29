@@ -35,7 +35,20 @@ const insertBanda = async function (banda){
 
 //Função para atualizar uma banda existente 
 const updateBanda = async function (){
+    try {
+        let sql = `update tbl_banda set nome = '${banda.nome}'
+        where id = '${banda.id}'`
 
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return true 
+        else 
+            return false 
+        
+    } catch (error) {
+        return false 
+    }
 }
 
 

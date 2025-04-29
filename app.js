@@ -162,6 +162,22 @@ app.delete('/v1/controler-musica/banda/:id', cors(), async function(){
     response.status(resultBanda.status_code)
     response.json(resultBanda)
 })
+
+//Endpoint para atualizar uma banda pelo id
+app.put('/v1/controle-musica/banda/:id', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let idbanda = request.params.id
+
+    //recebe os dados do corpo da requisição 
+    let dadosbody = request.body
+
+    let resultBanda = await ControllerBanda.atualizarBanda(idbanda, dadosbody, contentType)
+
+    response.status(resultBanda.status_code)
+    response.json(resultBanda)
+})
+
 app.listen('8080', function(){
     console.log('API funcionando e aguardando requisições..')
 })

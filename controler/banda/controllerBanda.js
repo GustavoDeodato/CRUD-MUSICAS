@@ -35,7 +35,40 @@ const inserirBanda = async function (banda, contentType){
 
 //função para atualizar uma banda 
 const atualizarBanda = async function  (){
+    try {
+        if(String(contentType).toLowerCase() == 'application/json'){
+            if(banda.nome == '' || banda.nome == null || banda.nome == undefined || banda.nome.length > 100 || 
+                id == '' || id == null || id == undefined || isNaN(id)
+                 
+            ){
+                return message.ERROR_REQUIRED_FIELDS
+            }else{
+                //verificação existancia ID no BD
+                    let result = await bandaDAO.selectByIdBanda(id)
 
+                    if(result != false || typeof(result) == 'object'){
+                        if(result.length > 0 ){
+                            //Update 
+
+                            //adciona o atributi do id no json com os dados recebidos no corpo da requisição 
+                            musica.id = id 
+                                let resultBanda = await bandaDAO.updateBanda(banda)
+                                if(resultBanda){
+                                    return message.SUCESS_UPDATE_ITEM
+                                }else{
+                                    return message.ERROR_INTERNAL_SERVER_MODEL//500
+                                }
+                        }else{
+                            return message.ERROR_NOT_FOUND//404
+                        }
+                    }
+            }
+        }else{
+            return message.ERROR_CONTENT_TYPE//415
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
 }
 
 //função para deletar uma bandas 
