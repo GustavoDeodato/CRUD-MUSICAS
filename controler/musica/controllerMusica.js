@@ -11,7 +11,8 @@ const message = require('../../modulo/config.js')
 //Import do DAO para realizar o CRUD no banco de dados 
 const musicaDAO = require('../../model/DAO/musica.js')
 
-
+//import da controller banda para facilitar o relacionamento 
+const controllerBanda = require('../banda/controllerBanda.js')
 
 
 //função para inserir uma musica 
@@ -139,6 +140,10 @@ const listarMusica = async function (){
                 dadosMusica.status = true
                 dadosMusica.status_code = 200,
                 dadosMusica.items = resultMusica.length
+
+
+                
+
                 dadosMusica.musics = resultMusica
                 return dadosMusica
             }else{

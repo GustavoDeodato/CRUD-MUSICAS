@@ -12,5 +12,95 @@ const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient
 
 const inserirGenero = async function (genero) {
-    
+    try {
+        let sql = `insert into tbl_genero (nome)
+        
+        values('${genero.nome}')`
+
+    //Executa o script sql no banco de dados e aguarda o resultado (retornando true ou false)
+    let result = await prisma.$executeRawUnsafe(sql)
+
+
+    if(result)
+        return true 
+    else 
+    return false 
+
+    } catch (error) {
+        console.log(error)
+        return false 
+    }
+}
+
+//Função para atualizar uma genero existente 
+const updateGenero = async function (){
+    try {
+        let sql = `update tbl_genero set nome = '${genero.nome}'
+        where id = '${genero.id}'`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if(result)
+            return true 
+        else 
+            return false 
+        
+    } catch (error) {
+        return false 
+    }
+}
+
+
+//função para deletar uma genero 
+const deleteGenero = async function (){
+    try {
+        let sql = `delete from tbl_genero where id = ${id}`
+
+        result = await prisma.$executeRawUnsafe(sql)
+    } catch (error) {
+        
+    }
+
+}
+
+//função para mostrar todas as genero 
+const selectAllGenero = async function (){
+    try {
+        sql = `select * from tbl_genero order by id desc`
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(result)
+            return result
+        else
+            return false
+    } catch (error) {
+        return false 
+    }
+}
+
+//função para busca pelo ID 
+const selectByIdGenero = async function (id){
+    try {
+        let sql = `select * from tbl_genero where id = ${id}`
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(result)
+            return result
+        else 
+          return false
+
+    } catch (error) {
+        return false 
+    }
+    }
+
+module.exports = {
+
+    inserirGenero,
+    selectAllGenero,
+    selectByIdGenero,
+    deleteGenero,
+    updateGenero
 }

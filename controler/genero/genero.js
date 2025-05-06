@@ -1,27 +1,27 @@
 /*********************************************
- * Objetivo: Controller referente as ações de CRUD de banda  
- * Data: 01/04/2025
+ * Objetivo: Controller referente as ações de CRUD de genero 
+ * Data: 29/04/2025
  * Autor: Gustavo Deodato
  * Versão 1.0
  * ********************************************** */
 
 const message = require('../../modulo/config.js')
 
-const bandaDAO = require('../../model/DAO/banda.js')
+const generoDAO = require('../../model/DAO/genero.js')
 
-//função para inserir uma banda 
-const inserirBanda = async function (banda, contentType){
+//função para inserir uma genero 
+const inserirGenero = async function (genero, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(banda.nome == ''|| banda.nome == null||banda.nome == undefined|| banda.nome.Length > 100 
+            if(genero.nome == ''|| genero.nome == null||genero.nome == undefined|| genero.nome.Length > 100 
 
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
-                //encaminhar dados da banda para o db 
-                let resultBanda = await bandaDAO.insertBanda(banda)
+                //encaminhar dados da genero para o db 
+                let resultGenero = await generoDAO.inserirGenero(genero)
 
-                if(resultBanda)
+                if(resultGenero)
                     return message.SUCESS_CREATED_ITEM//201
                 else 
                     return message.ERROR_INTERNAL_SERVER_MODEL///500
@@ -33,18 +33,18 @@ const inserirBanda = async function (banda, contentType){
     }
 }
 
-//função para atualizar uma banda 
-const atualizarBanda = async function  (){
+//função para atualizar uma genero 
+const atualizarGenero = async function  (){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(banda.nome == '' || banda.nome == null || banda.nome == undefined || banda.nome.length > 100 || 
+            if(genero.nome == '' || genero.nome == null || genero.nome == undefined || genero.nome.length > 100 || 
                 id == '' || id == null || id == undefined || isNaN(id)
                  
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
                 //verificação existancia ID no BD
-                    let result = await bandaDAO.selectByIdBanda(id)
+                    let result = await generoDAO.selectByIdGenero(id)
 
                     if(result != false || typeof(result) == 'object'){
                         if(result.length > 0 ){
@@ -52,8 +52,8 @@ const atualizarBanda = async function  (){
 
                             //adciona o atributi do id no json com os dados recebidos no corpo da requisição 
                             musica.id = id 
-                                let resultBanda = await bandaDAO.updateBanda(banda)
-                                if(resultBanda){
+                                let resultgenero = await generoDAO.updateGenero(genero)
+                                if(resultgenero){
                                     return message.SUCESS_UPDATE_ITEM
                                 }else{
                                     return message.ERROR_INTERNAL_SERVER_MODEL//500
@@ -71,21 +71,21 @@ const atualizarBanda = async function  (){
     }
 }
 
-//função para deletar uma bandas 
-const excluirBanda = async function (id){
+//função para deletar uma Genero
+const excluirGenero = async function (id){
 
     try {
           if(id == '' || id == null || id == undefined || isNaN(id)){
                     return message.ERROR_REQUIRED_FIELDS//400
           }else{
              
-            let resultBanda = bandaDAO.selectByIdBanda(id)
+            let resultGenero = generoDAO.selectByIdGenero(id)
 
-            if(resultBanda != false || typeof(resultBanda) == 'object'){
-                if(resultBanda.length > 0){
+            if(resultGenero != false || typeof(resultGenero) == 'object'){
+                if(resultGenero.length > 0){
                     //delete
 
-                    result = bandaDAO.deleteBanda(id)
+                    result = generoDAO.deleteGenero(id)
 
                     if(result)
                         return message.SUCESS_DELETE_ITEM//200
@@ -108,22 +108,22 @@ const excluirBanda = async function (id){
 
 }
 
-// função para mostrar todas as bandas
-const listarBanda = async function (){
+// função para mostrar todas as Genero
+const listarGenero = async function (){
 
     try {
-        let dadosBanda = {}
+        let dadosGenero = {}
 
-        let resultBanda = await bandaDAO.selectAllBanda()
+        let resultGenero = await generoDAO.selectAllGenero()
 
-         if(resultBanda != false || typeof(resultBanda) == 'object' ){
-                    if(resultBanda.length > 0){
-                        //cria um json para colocar o array de bandas
-                        dadosBanda.status = true
-                        dadosBanda.status_code = 200,
-                        dadosBanda.items = resultBanda.length
-                        dadosBanda.bandas = resultBanda
-                        return dadosBanda
+         if(resultGenero != false || typeof(resultGenero) == 'object' ){
+                    if(resultGenero.length > 0){
+                        //cria um json para colocar o array de Genero
+                        dadosGenero.status = true
+                        dadosGenero.status_code = 200,
+                        dadosGenero.items = resultGenero.length
+                        dadosGenero.generos = resultGenero
+                        return dadosGenero
                     }else{
                         return message.ERROR_NOT_FOUND //404
                     }
@@ -136,24 +136,24 @@ const listarBanda = async function (){
     }
 
 }
-//função para buscar uma banda pelo ID 
-const buscarBanda = async function (id){
+//função para buscar uma Genero pelo ID 
+const buscarGenero = async function (id){
     try {
 
          if(id == '' || id == undefined || id == null || isNaN(id)){
                    return message.ERROR_REQUIRED_FIELDS //400
                 }else{
-                    let dadosBanda = {}
+                    let dadosGenero = {}
 
-                    resultBanda = await bandaDAO.selectByIdBanda(id)
+                    resultGenero = await GeneroDAO.selectByIdGenero(id)
 
-                        if(resultBanda != false || typeof(resultBanda) == 'object'){
-                            if(resultBanda.length > 0 ){
-                            //criacao do json para o array das bandas 
-                            dadosBanda.status = true,
-                            dadosBanda.status_code = 200, 
-                            dadosBanda.bandas = resultBanda
-                            return dadosBanda
+                        if(resultGenero != false || typeof(resultGenero) == 'object'){
+                            if(resultGenero.length > 0 ){
+                            //criacao do json para o array das Genero
+                            dadosGenero.status = true,
+                            dadosGenero.status_code = 200, 
+                            dadosGenero.genero = resultGenero
+                            return dadosGenero
                             }else{
                                return message.ERROR_NOT_FOUND//404
                             }                           
@@ -168,11 +168,10 @@ const buscarBanda = async function (id){
 }
 }
 
-
 module.exports = {
-    inserirBanda,
-    atualizarBanda,
-    excluirBanda,
-    listarBanda,
-    buscarBanda
+    inserirGenero,
+    listarGenero,
+    buscarGenero,
+    excluirGenero,
+    atualizarGenero
 }

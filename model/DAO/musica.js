@@ -29,7 +29,7 @@ const insertMusica = async function(musica){
             '${musica.data_lancamento}',
             '${musica.letra}',
             '${musica.link}',
-            '${banda.id}'
+            '${musica.id_banda}'
 
     
             
