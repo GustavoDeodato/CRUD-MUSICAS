@@ -9,21 +9,21 @@
 
 const message = require('../../modulo/config.js')
 
-const generoDAO = require('../../model/DAO/musica_genero.js')
+const musicageneroDAO = require('../../model/DAO/musica_genero.js')
 
 //função para inserir uma genero 
-const inserirMusicaGenero = async function (genero, contentType){
+const inserirMusicaGenero = async function (musicagenero, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(genero.nome == ''|| genero.nome == null||genero.nome == undefined|| genero.nome.Length > 100 
+            if(musicagenero.nome == ''|| musicagenero.nome == null||musicagenero.nome == undefined|| musicagenero.nome.Length > 100 
 
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
-                //encaminhar dados da genero para o db 
-                let resultGenero = await generoDAO.inserirGenero(genero)
+                //encaminhar dados da musicagenero para o db 
+                let resultMusicaGenero = await musicageneroDAO.inserirGenero(musicagenero)
 
-                if(resultGenero)
+                if(resultMusicaGenero)
                     return message.SUCESS_CREATED_ITEM//201
                 else 
                     return message.ERROR_INTERNAL_SERVER_MODEL///500
@@ -36,17 +36,18 @@ const inserirMusicaGenero = async function (genero, contentType){
 }
 
 //função para atualizar uma genero 
+//terminar 
 const atualizarMusicaGenero = async function  (){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(genero.nome == '' || genero.nome == null || genero.nome == undefined || genero.nome.length > 100 || 
+            if(musicagenero.nome == '' || musicagenero.nome == null || musicagenero.nome == undefined || musicagenero.nome.length > 100 || 
                 id == '' || id == null || id == undefined || isNaN(id)
                  
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
                 //verificação existancia ID no BD
-                    let result = await generoDAO.selectByIdGenero(id)
+                    let result = await musicageneroDAO.selectByIdGenero(id)
 
                     if(result != false || typeof(result) == 'object'){
                         if(result.length > 0 ){
