@@ -21,8 +21,9 @@ const insertMusica = async function(musica){
         duracao, 
         data_lancamento, 
         letra, 
-        link )
-    
+        link,
+        id_banda
+        )
     values (
             '${musica.nome}',
             '${musica.duracao}',
@@ -32,7 +33,6 @@ const insertMusica = async function(musica){
             '${musica.id_banda}'
 
     
-            
             )`
 
     

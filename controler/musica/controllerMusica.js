@@ -25,8 +25,8 @@ const inserirMusica = async function (musica, contentType){
                 musica.duracao == ''|| musica.duracao == null ||musica.duracao == undefined || musica.duracao.length > 8 ||
                musica.data_lancamento == '' || musica.data_lancamento == null || musica.data_lancamento == undefined || musica.data_lancamento.length > 10 || 
                 musica.letra == undefined ||
-                musica.link == undefined || musica.link.length >200
-                 
+                musica.link == undefined || musica.link.length >200||
+                musica.id_banda == '' || musica.id_banda == undefined
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
@@ -60,7 +60,8 @@ const atualizarMusica = async function (id, musica, contentType){
                 musica.data_lancamento == '' || musica.data_lancamento == null || musica.data_lancamento == undefined || musica.data_lancamento.length > 10 || 
                 musica.letra == undefined ||
                 musica.link == undefined || musica.link.length >200 ||
-                id == '' || id == null || id == undefined || isNaN(id)
+                id == '' || id == null || id == undefined || isNaN(id)||
+                musica.id_banda == '' || musica.id_banda == undefined
                  
             ){
                 return message.ERROR_REQUIRED_FIELDS
@@ -129,6 +130,8 @@ const listarMusica = async function (){
 
     try {
 
+        let arrayMusicas = []
+
         let dadosMusica = {}
 
         //Chama a função para retornar a musica no banco de dados 
@@ -141,8 +144,25 @@ const listarMusica = async function (){
                 dadosMusica.status_code = 200,
                 dadosMusica.items = resultMusica.length
 
-
+                //Percorrer o array de filmes para pegar cada ID de classificação
+                // e descobrir quais os dados da classificação
                 
+                // resultFilme.forEach( async function(itemFilme){
+                //Precisamos utilizar o for of, pois o foreach não consegue trabalhar com 
+                // requisições async com await
+                for(const itemMusica of resultMusica){
+                 //Busca os dados da classificação na controller de classificacao
+                    let dadosBanda = await controllerBanda.buscarBanda(itemMusica.id_banda)
+
+                    //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                    itemMusica.banda = dadosBanda.banda
+
+                     //Remover um atributo do JSON
+                    delete itemMusica.id_banda
+
+                    //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                    arrayMusicas.push(itemMusica)
+                }
 
                 dadosMusica.musics = resultMusica
                 return dadosMusica
