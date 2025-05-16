@@ -174,7 +174,7 @@ const buscarMusicaGenero = async function (id){
 }
 
 module.exports = {
-  atualizarMusicaGenero,
+  inserirMusicaGenero,
   atualizarMusicaGenero,
   buscarMusicaGenero,
   listarMusicaGenero,

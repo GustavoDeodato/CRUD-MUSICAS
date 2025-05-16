@@ -56,6 +56,7 @@ app.use((request, response, next)=>{
 const ControllerMusica = require('./controler/musica/controllerMusica.js')
 const ControllerBanda = require('./controler/banda/controllerBanda.js')
 const ControllerGenero = require('./controler/genero/Controllergenero.js')
+const ControllerMusicaGenero = require('./controler/musica_genero/ControllerMusica_Genero.js')
 
 //Endpoint para inserir uma musica 
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON, async function(request, response){
@@ -191,7 +192,7 @@ app.post('/v1/controle-musica/genero', cors (), bodyParserJSON, async function(r
     //chama a função da controller para inserir os dados e agurada o retorno da função 
     let resultGenero = await ControllerGenero.inserirGenero(dadosbody, contentType)
 
-    response.status(resultBanda.status_code)
+    response.status(resultGenero.status_code)
     response.json(resultGenero)
 
 })
@@ -239,7 +240,67 @@ app.put('/v1/controle-musica/genero/:id', cors(), bodyParserJSON, async function
     response.json(resultGenero)
 })
 
+/////////////////////////////////////////////////////////////////// M U S I C A _ G  E N E R O S   ///////////////////////////////////////////////////////////////////////////////////////////
+
+// endpoint para inserir na tabela intermediaria musicagenero 
+app.post('/v1/controle-musica/musicagenero', cors (), bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    //recebe os dados do body da requisição 
+    let dadosbody = request.body
+   
+    //chama a função da controller para inserir os dados e agurada o retorno da função 
+    let resultMusicaGenero = await ControllerMusicaGenero.inserirMusicaGenero(dadosbody, contentType)
+
+    response.status(resultMusicaGenero.status_code)
+    response.json(resultMusicaGenero)
+
+})
+
+//endpoint para listar todos na tabela intermediaria musicagenero  
+app.get ('/v1/controler-musica/musicagenero', cors(), async function (request, response) {
+    resultMusicaGenero = await ControllerMusicaGenero.listarMusicaGenero()
+
+    response.status(resultMusicaGenero.status_code)
+    response.json(resultMusicaGenero)
+})
+
+//Endpoint para buscar pelo ID na tabela intermediaria musicagenero  
+app.get('/v1/controler-musica/musicagenero/:id', cors(), async function(request, response){
+    let idMusicaGenero = request.params.id 
+
+    let resultMusicaGenero = await ControllerMusicaGenero.buscarMusicaGenero(idMusicaGenero)
+
+    response.status(resultMusicaGenero.status_code)
+    response.json(resultMusicaGenero)
+})
+
+//Endpoint para deletar na tabela intermediaria musicagenero 
+app.delete('/v1/controler-musica/musicagenero/:id', cors(), async function(){
+    let idmusicagenero = request.params.id
+
+    let resultMusicaGenero = await ControllerMusicaGenero.excluirMusicaGenero (idmusicagenero)
+
+    response.status(resultMusicaGenero.status_code)
+    response.json(resultMusicaGenero)
+})
+
+//Endpoint para atualizar na tabela intermediaria musicagenero pelo ID
+app.put('/v1/controle-musica/musicagenero/:id', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let idmusicagenero = request.params.id
+
+    //recebe os dados do corpo da requisição  
+    let dadosbody = request.body
+
+    let resultMusicaGenero = await ControllerMusicaGenero.atualizarMusicaGenero(idmusicagenero, dadosbody, contentType)
+
+    response.status(resultMusicaGenero.status_code)
+    response.json(resultMusicaGenero)
+})
+
 app.listen('8080', function(){
     console.log('API funcionando e aguardando requisições..')
 })
-
