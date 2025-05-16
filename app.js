@@ -55,7 +55,7 @@ app.use((request, response, next)=>{
 //import das funções 
 const ControllerMusica = require('./controler/musica/controllerMusica.js')
 const ControllerBanda = require('./controler/banda/controllerBanda.js')
-const ControllerGenero = require('./controler/genero/genero.js')
+const ControllerGenero = require('./controler/genero/Controllergenero.js')
 
 //Endpoint para inserir uma musica 
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON, async function(request, response){
@@ -230,7 +230,7 @@ app.put('/v1/controle-musica/genero/:id', cors(), bodyParserJSON, async function
     
     let idgenero = request.params.id
 
-    //recebe os dados do corpo da requisição 
+    //recebe os dados do corpo da requisição  
     let dadosbody = request.body
 
     let resultGenero = await ControllerGenero.atualizarGenero(idgenero, dadosbody, contentType)

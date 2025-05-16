@@ -51,7 +51,7 @@ const atualizarGenero = async function  (){
                             //Update 
 
                             //adciona o atributi do id no json com os dados recebidos no corpo da requisição 
-                            musica.id = id 
+                            genero.id = id 
                                 let resultgenero = await generoDAO.updateGenero(genero)
                                 if(resultgenero){
                                     return message.SUCESS_UPDATE_ITEM

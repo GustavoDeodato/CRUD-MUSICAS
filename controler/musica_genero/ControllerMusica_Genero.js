@@ -15,7 +15,9 @@ const musicageneroDAO = require('../../model/DAO/musica_genero.js')
 const inserirMusicaGenero = async function (musicagenero, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(musicagenero.nome == ''|| musicagenero.nome == null||musicagenero.nome == undefined|| musicagenero.nome.Length > 100 
+            if(
+                musicagenero.id_genero == ''|| musicagenero.id_genero == null || musicagenero.id_genero == undefined
+                 ||musicagenero.id_musica == ''|| musicagenero.id_musica == null || musicagenero.id_musica == undefined
 
             ){
                 return message.ERROR_REQUIRED_FIELDS
@@ -37,11 +39,12 @@ const inserirMusicaGenero = async function (musicagenero, contentType){
 
 //função para atualizar uma genero 
 //terminar 
-const atualizarMusicaGenero = async function  (){
+const atualizarMusicaGenero = async function  (id, musicagenero, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(musicagenero.nome == '' || musicagenero.nome == null || musicagenero.nome == undefined || musicagenero.nome.length > 100 || 
-                id == '' || id == null || id == undefined || isNaN(id)
+            if( musicagenero.id_genero == ''|| musicagenero.id_genero == null || musicagenero.id_genero == undefined
+                 ||musicagenero.id_musica == ''|| musicagenero.id_musica == null || musicagenero.id_musica == undefined
+                ||id == '' || id == null || id == undefined || isNaN(id)
                  
             ){
                 return message.ERROR_REQUIRED_FIELDS
@@ -54,9 +57,9 @@ const atualizarMusicaGenero = async function  (){
                             //Update 
 
                             //adciona o atributi do id no json com os dados recebidos no corpo da requisição 
-                            musica.id = id 
-                                let resultgenero = await generoDAO.updateGenero(genero)
-                                if(resultgenero){
+                            musicagenero.id = id 
+                                let resultmusicagenero = await musicageneroDAO.updateMusicaGenero(musicagenero)
+                                if(resultmusicagenero){
                                     return message.SUCESS_UPDATE_ITEM
                                 }else{
                                     return message.ERROR_INTERNAL_SERVER_MODEL//500
@@ -82,13 +85,13 @@ const excluirMusicaGenero = async function (id){
                     return message.ERROR_REQUIRED_FIELDS//400
           }else{
              
-            let resultGenero = generoDAO.selectByIdGenero(id)
+            let resultGenero = musicageneroDAO.selectAllMusicaGenero(id)
 
             if(resultGenero != false || typeof(resultGenero) == 'object'){
                 if(resultGenero.length > 0){
                     //delete
 
-                    result = generoDAO.deleteGenero(id)
+                    result = musicageneroDAO.deleteMusicaGenero(id)
 
                     if(result)
                         return message.SUCESS_DELETE_ITEM//200
@@ -115,18 +118,18 @@ const excluirMusicaGenero = async function (id){
 const listarMusicaGenero = async function (){
 
     try {
-        let dadosGenero = {}
+        let dadosMusicaGenero = {}
 
-        let resultGenero = await generoDAO.selectAllGenero()
+        let resultMusicaGenero = await musicageneroDAO.selectAllMusicaGenero()
 
          if(resultGenero != false || typeof(resultGenero) == 'object' ){
-                    if(resultGenero.length > 0){
+                    if(resultMusicaGenero.length > 0){
                         //cria um json para colocar o array de Genero
-                        dadosGenero.status = true
-                        dadosGenero.status_code = 200,
-                        dadosGenero.items = resultGenero.length
-                        dadosGenero.generos = resultGenero
-                        return dadosGenero
+                        dadosMusicaGenero.status = true
+                        dadosMusicaGenero.status_code = 200,
+                        dadosMusicaGenero.items = resultMusicaGenero.length
+                        dadosMusicaGenero.generos = resultMusicaGenero
+                        return dadosMusicaGenero
                     }else{
                         return message.ERROR_NOT_FOUND //404
                     }
@@ -146,17 +149,16 @@ const buscarMusicaGenero = async function (id){
          if(id == '' || id == undefined || id == null || isNaN(id)){
                    return message.ERROR_REQUIRED_FIELDS //400
                 }else{
-                    let dadosGenero = {}
+                    let dadosMusicaGenero = {}
 
-                    resultGenero = await GeneroDAO.selectByIdGenero(id)
+                    resultMusicaGenero = await musicageneroDAO.selectByIdMusicaGenero(id)
 
-                        if(resultGenero != false || typeof(resultGenero) == 'object'){
+                        if(resultMusicaGenero != false || typeof(resultMusicaGenero) == 'object'){
                             if(resultGenero.length > 0 ){
                             //criacao do json para o array das Genero
-                            dadosGenero.status = true,
-                            dadosGenero.status_code = 200, 
-                            dadosGenero.genero = resultGenero
-                            return dadosGenero
+                            dadosMusicaGenero.status_code = 200, 
+                            dadosMusicaGenero.genero = resultMusicaGenero
+                            return dadosMusicaGenero
                             }else{
                                return message.ERROR_NOT_FOUND//404
                             }                           
@@ -172,5 +174,9 @@ const buscarMusicaGenero = async function (id){
 }
 
 module.exports = {
-  
+  atualizarMusicaGenero,
+  atualizarMusicaGenero,
+  buscarMusicaGenero,
+  listarMusicaGenero,
+  excluirMusicaGenero
 }

@@ -44,7 +44,6 @@ const inserirMusica = async function (musica, contentType){
             return message.ERROR_CONTENT_TYPE
         }
             
-            
         }catch (error) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER//500
     }
