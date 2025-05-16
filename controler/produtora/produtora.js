@@ -7,21 +7,21 @@
 
 const message = require('../../modulo/config.js')
 
-const bandaDAO = require('../../model/DAO/banda.js')
+const produtoraDAO = require('../../model/DAO/produtora.js')
 
-//função para inserir uma banda 
-const inserirBanda = async function (banda, contentType){
+//função para inserir uma Produtora 
+const inserirProdutora = async function (Produtora, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(banda.nome == ''|| banda.nome == null||banda.nome == undefined|| banda.nome.Length > 100 
+            if(Produtora.nome == ''|| Produtora.nome == null||Produtora.nome == undefined|| Produtora.nome.Length > 100 
 
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
-                //encaminhar dados da banda para o db 
-                let resultBanda = await bandaDAO.insertBanda(banda)
+                //encaminhar dados da Produtora para o db 
+                let resultProdutora = await produtoraDAO.insertProdutora(Produtora)
 
-                if(resultBanda)
+                if(resultProdutora)
                     return message.SUCESS_CREATED_ITEM//201
                 else 
                     return message.ERROR_INTERNAL_SERVER_MODEL///500
@@ -33,27 +33,27 @@ const inserirBanda = async function (banda, contentType){
     }
 }
 
-//função para atualizar uma banda 
-const atualizarBanda = async function  (contentType, banda, id){
+//função para atualizar uma produtora 
+const atualizarProdutora = async function  (produtora, id, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
-            if(banda.nome == '' || banda.nome == null || banda.nome == undefined || banda.nome.length > 100 || 
+            if(produtora.nome == '' || produtora.nome == null || produtora.nome == undefined || produtora.nome.length > 100 || 
                 id == '' || id == null || id == undefined || isNaN(id)
                  
             ){
                 return message.ERROR_REQUIRED_FIELDS
             }else{
                 //verificação existancia ID no BD
-                    let result = await bandaDAO.selectByIdBanda(id)
+                    let result = await produtoraDAO.selectByIdProdutora(id)
 
                     if(result != false || typeof(result) == 'object'){
                         if(result.length > 0 ){
                             //Update 
 
                             //adciona o atributi do id no json com os dados recebidos no corpo da requisição 
-                            banda.id = id 
-                                let resultBanda = await bandaDAO.updateBanda(banda)
-                                if(resultBanda){
+                            produtora.id = id 
+                                let resultProdutora = await produtoraDAO.updateProdutora(produtora)
+                                if(resultProdutora){
                                     return message.SUCESS_UPDATE_ITEM
                                 }else{
                                     return message.ERROR_INTERNAL_SERVER_MODEL//500
@@ -71,21 +71,21 @@ const atualizarBanda = async function  (contentType, banda, id){
     }
 }
 
-//função para deletar uma bandas 
-const excluirBanda = async function (id){
+//função para deletar uma Produtora 
+const excluirProdutora = async function (id){
 
     try {
           if(id == '' || id == null || id == undefined || isNaN(id)){
                     return message.ERROR_REQUIRED_FIELDS//400
           }else{
              
-            let resultBanda = bandaDAO.selectByIdBanda(id)
+            let resultProdutora = produtoraDAO.selectByIdProdutora(id)
 
-            if(resultBanda != false || typeof(resultBanda) == 'object'){
-                if(resultBanda.length > 0){
+            if(resultProdutora != false || typeof(resultProdutora) == 'object'){
+                if(resultProdutora.length > 0){
                     //delete
 
-                    result = bandaDAO.deleteBanda(id)
+                    result = produtoraDAO.deleteProdutora(id)
 
                     if(result)
                         return message.SUCESS_DELETE_ITEM//200
@@ -108,22 +108,22 @@ const excluirBanda = async function (id){
 
 }
 
-// função para mostrar todas as bandas
-const listarBanda = async function (){
+// função para mostrar todas as Produtora
+const listarProdutora = async function (){
 
     try {
-        let dadosBanda = {}
+        let dadosProdutora = {}
 
-        let resultBanda = await bandaDAO.selectAllBanda()
+        let resultProdutora = await produtoraDAO.selectAllProdutora()
 
-         if(resultBanda != false || typeof(resultBanda) == 'object' ){
-                    if(resultBanda.length > 0){
+         if(resultProdutora != false || typeof(resultProdutora) == 'object' ){
+                    if(resultProdutora.length > 0){
                         //cria um json para colocar o array de bandas
-                        dadosBanda.status = true
-                        dadosBanda.status_code = 200,
-                        dadosBanda.items = resultBanda.length
-                        dadosBanda.bandas = resultBanda
-                        return dadosBanda
+                        dadosProdutora.status = true
+                        dadosProdutora.status_code = 200,
+                        dadosProdutora.items = resultProdutora.length
+                        dadosProdutora.bandas = resultProdutora
+                        return dadosProdutora
                     }else{
                         return message.ERROR_NOT_FOUND //404
                     }
@@ -136,24 +136,24 @@ const listarBanda = async function (){
     }
 
 }
-//função para buscar uma banda pelo ID 
-const buscarBanda = async function (id){
+//função para buscar uma produtora pelo ID 
+const buscarProdutora = async function (id){
     try {
 
          if(id == '' || id == undefined || id == null || isNaN(id)){
                    return message.ERROR_REQUIRED_FIELDS //400
                 }else{
-                    let dadosBanda = {}
+                    let dadosProdutora = {}
 
-                    resultBanda = await bandaDAO.selectByIdBanda(id)
+                    resultProdutora = await produtoraDAO.selectByIdBanda(id)
 
-                        if(resultBanda != false || typeof(resultBanda) == 'object'){
-                            if(resultBanda.length > 0 ){
+                        if(resultProdutora != false || typeof(resultProdutora) == 'object'){
+                            if(resultProdutora.length > 0 ){
                             //criacao do json para o array das bandas 
-                            dadosBanda.status = true,
-                            dadosBanda.status_code = 200, 
-                            dadosBanda.bandas = resultBanda
-                            return dadosBanda
+                            dadosProdutora.status = true,
+                            dadosProdutora.status_code = 200, 
+                            dadosProdutora.Produtoras = resultProdutora
+                            return dadosProdutora
                             }else{
                                return message.ERROR_NOT_FOUND//404
                             }                           
@@ -170,9 +170,9 @@ const buscarBanda = async function (id){
 
 
 module.exports = {
-    inserirBanda,
-    atualizarBanda,
-    excluirBanda,
-    listarBanda,
-    buscarBanda
+  inserirProdutora,
+  atualizarProdutora,
+  buscarProdutora,
+  listarProdutora,
+  excluirProdutora
 }
