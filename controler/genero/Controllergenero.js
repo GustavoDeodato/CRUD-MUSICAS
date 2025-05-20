@@ -34,7 +34,7 @@ const inserirGenero = async function (genero, contentType){
 }
 
 //função para atualizar uma genero 
-const atualizarGenero = async function  (){
+const atualizarGenero = async function  (id, genero, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
             if(genero.nome == '' || genero.nome == null || genero.nome == undefined || genero.nome.length > 100 || 
@@ -78,14 +78,14 @@ const excluirGenero = async function (id){
           if(id == '' || id == null || id == undefined || isNaN(id)){
                     return message.ERROR_REQUIRED_FIELDS//400
           }else{
-             
-            let resultGenero = generoDAO.selectByIdGenero(id)
+            //verificando a existencia do id antes de excluir 
+            let resultGenero = await generoDAO.selectByIdGenero(id)
 
             if(resultGenero != false || typeof(resultGenero) == 'object'){
                 if(resultGenero.length > 0){
                     //delete
 
-                    result = generoDAO.deleteGenero(id)
+                    result = await generoDAO.deleteGenero(id)
 
                     if(result)
                         return message.SUCESS_DELETE_ITEM//200
@@ -145,7 +145,7 @@ const buscarGenero = async function (id){
                 }else{
                     let dadosGenero = {}
 
-                    resultGenero = await GeneroDAO.selectByIdGenero(id)
+                    resultGenero = await generoDAO.selectByIdGenero(id)
 
                         if(resultGenero != false || typeof(resultGenero) == 'object'){
                             if(resultGenero.length > 0 ){

@@ -143,10 +143,10 @@ const listarMusica = async function (){
                 dadosMusica.status_code = 200,
                 dadosMusica.items = resultMusica.length
 
-                //Percorrer o array de filmes para pegar cada ID de classificação
-                // e descobrir quais os dados da classificação
+                //Percorrer o array de musicas para pegar cada ID de bandas
+                // e descobrir quais os dados da banda
                 
-                // resultFilme.forEach( async function(itemFilme){
+             
                 //Precisamos utilizar o for of, pois o foreach não consegue trabalhar com 
                 // requisições async com await
                 for(const itemMusica of resultMusica){

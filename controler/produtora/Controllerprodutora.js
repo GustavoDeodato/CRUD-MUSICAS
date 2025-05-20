@@ -34,7 +34,7 @@ const inserirProdutora = async function (Produtora, contentType){
 }
 
 //função para atualizar uma produtora 
-const atualizarProdutora = async function  (produtora, id, contentType){
+const atualizarProdutora = async function  (id, produtora, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
             if(produtora.nome == '' || produtora.nome == null || produtora.nome == undefined || produtora.nome.length > 100 || 
@@ -78,14 +78,14 @@ const excluirProdutora = async function (id){
           if(id == '' || id == null || id == undefined || isNaN(id)){
                     return message.ERROR_REQUIRED_FIELDS//400
           }else{
-             
-            let resultProdutora = produtoraDAO.selectByIdProdutora(id)
+          //verificando a existencia do id antes de excluir 
+            let resultProdutora = await produtoraDAO.selectByIdProdutora(id)
 
             if(resultProdutora != false || typeof(resultProdutora) == 'object'){
                 if(resultProdutora.length > 0){
                     //delete
 
-                    result = produtoraDAO.deleteProdutora(id)
+                    result = await produtoraDAO.excluirProdutora(id)
 
                     if(result)
                         return message.SUCESS_DELETE_ITEM//200
@@ -145,7 +145,7 @@ const buscarProdutora = async function (id){
                 }else{
                     let dadosProdutora = {}
 
-                    resultProdutora = await produtoraDAO.selectByIdBanda(id)
+                    resultProdutora = await produtoraDAO.selectByIdProdutora(id)
 
                         if(resultProdutora != false || typeof(resultProdutora) == 'object'){
                             if(resultProdutora.length > 0 ){

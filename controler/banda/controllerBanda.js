@@ -34,7 +34,7 @@ const inserirBanda = async function (banda, contentType){
 }
 
 //função para atualizar uma banda 
-const atualizarBanda = async function  (contentType, banda, id){
+const atualizarBanda = async function  (id, banda, contentType){
     try {
         if(String(contentType).toLowerCase() == 'application/json'){
             if(banda.nome == '' || banda.nome == null || banda.nome == undefined || banda.nome.length > 100 || 
@@ -79,13 +79,13 @@ const excluirBanda = async function (id){
                     return message.ERROR_REQUIRED_FIELDS//400
           }else{
              
-            let resultBanda = bandaDAO.selectByIdBanda(id)
+            let resultBanda = await bandaDAO.selectByIdBanda(id)
 
             if(resultBanda != false || typeof(resultBanda) == 'object'){
                 if(resultBanda.length > 0){
                     //delete
 
-                    result = bandaDAO.deleteBanda(id)
+                    result = await bandaDAO.deleteBanda(id)
 
                     if(result)
                         return message.SUCESS_DELETE_ITEM//200

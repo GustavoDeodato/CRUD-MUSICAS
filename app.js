@@ -57,6 +57,8 @@ const ControllerMusica = require('./controler/musica/controllerMusica.js')
 const ControllerBanda = require('./controler/banda/controllerBanda.js')
 const ControllerGenero = require('./controler/genero/Controllergenero.js')
 const ControllerMusicaGenero = require('./controler/musica_genero/ControllerMusica_Genero.js')
+const ControllerProdutora = require('./controler/produtora/Controllerprodutora.js')
+const ControllerAlbum = require('./controler/album/Controlleralbum.js')
 
 //Endpoint para inserir uma musica 
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON, async function(request, response){
@@ -155,7 +157,7 @@ app.get('/v1/controler-musica/banda/:id', cors(), async function(request, respon
 })
 
 //Endpoint para deletar uma banda pelo id 
-app.delete('/v1/controler-musica/banda/:id', cors(), async function(){
+app.delete('/v1/controler-musica/banda/:id', cors(), async function(request, response){
     let idbanda = request.params.id
 
     let resultBanda = await ControllerBanda.excluirBanda(idbanda)
@@ -216,10 +218,10 @@ app.get('/v1/controler-musica/genero/:id', cors(), async function(request, respo
 })
 
 //Endpoint para deletar uma genero pelo id 
-app.delete('/v1/controler-musica/genero/:id', cors(), async function(){
+app.delete('/v1/controler-musica/genero/:id', cors(), async function(request, response){
     let idgenero = request.params.id
 
-    let resultGenero = await ControllerGenero.excluirGenero (idgenero)
+    let resultGenero = await ControllerGenero.excluirGenero(idgenero)
 
     response.status(resultGenero.status_code)
     response.json(resultGenero)
@@ -303,4 +305,126 @@ app.put('/v1/controle-musica/musicagenero/:id', cors(), bodyParserJSON, async fu
 
 app.listen('8080', function(){
     console.log('API funcionando e aguardando requisições..')
+})
+
+///////////////////////////////////////////////////////////////////  P R O D U T O R A    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+// endpoint para inserir uma produtora
+app.post('/v1/controle-musica/produtora', cors (), bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    //recebe os dados do body da requisição 
+    let dadosbody = request.body
+   
+    //chama a função da controller para inserir os dados e agurada o retorno da função 
+    let resultProdutora = await ControllerProdutora.inserirProdutora(dadosbody, contentType)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+
+})
+
+//endpoint para listar todos os produtora 
+app.get ('/v1/controler-musica/produtora', cors(), async function (request, response) {
+    resultProdutora = await ControllerProdutora.listarProdutora()
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+})
+
+//Endpoint para buscar um produtora pelo ID 
+app.get('/v1/controler-musica/produtora/:id', cors(), async function(request, response){
+    let idProdutora = request.params.id 
+
+    let resultProdutora = await ControllerProdutora.buscarProdutora(idProdutora)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+})
+
+//Endpoint para deletar uma produtora pelo id 
+app.delete('/v1/controler-musica/produtora/:id', cors(), async function(request, response){
+    let idprodutora = request.params.id
+
+    let resultProdutora = await ControllerProdutora.excluirProdutora(idprodutora)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+})
+
+//Endpoint para atualizar uma produtora pelo id
+app.put('/v1/controle-musica/produtora/:id', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let idprodutora = request.params.id
+
+    //recebe os dados do corpo da requisição  
+    let dadosbody = request.body
+
+    let resultProdutora = await ControllerProdutora.atualizarProdutora(idprodutora, dadosbody, contentType)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+})
+
+///////////////////////////////////////////////////////////////////////////  A L B U M    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+// endpoint para inserir uma album
+app.post('/v1/controle-musica/album', cors (), bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    //recebe os dados do body da requisição 
+    let dadosbody = request.body
+   
+    //chama a função da controller para inserir os dados e agurada o retorno da função 
+    let resultProdutora = await ControllerAlbum.inserirAlbum(dadosbody, contentType)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+
+})
+//daqui pra baixo ta tudo incompleto
+//endpoint para listar todos os album
+app.get ('/v1/controler-musica/album', cors(), async function (request, response) {
+    resultAlbum = await ControllerAlbum.listarAlbum()
+
+    response.status(resultAlbum.status_code)
+    response.json(resultAlbum)
+})
+
+//Endpoint para buscar um produtora pelo ID 
+app.get('/v1/controler-musica/produtora/:id', cors(), async function(request, response){
+    let idProdutora = request.params.id 
+
+    let resultProdutora = await ControllerProdutora.buscarProdutora(idProdutora)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+})
+
+//Endpoint para deletar uma album pelo id 
+app.delete('/v1/controler-musica/album/:id', cors(), async function(request, response){
+    let idprodutora = request.params.id
+
+    let resultProdutora = await ControllerProdutora.excluirProdutora(idprodutora)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
+})
+
+//Endpoint para atualizar uma produtora pelo id
+app.put('/v1/controle-musica/produtora/:id', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let idprodutora = request.params.id
+
+    //recebe os dados do corpo da requisição  
+    let dadosbody = request.body
+
+    let resultProdutora = await ControllerProdutora.atualizarProdutora(idprodutora, dadosbody, contentType)
+
+    response.status(resultProdutora.status_code)
+    response.json(resultProdutora)
 })

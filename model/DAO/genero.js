@@ -33,7 +33,7 @@ const inserirGenero = async function (genero) {
 }
 
 //Função para atualizar uma genero existente 
-const updateGenero = async function (){
+const updateGenero = async function (genero){
     try {
         let sql = `update tbl_genero set nome = '${genero.nome}'
         where id = '${genero.id}'`
@@ -52,13 +52,18 @@ const updateGenero = async function (){
 
 
 //função para deletar uma genero 
-const deleteGenero = async function (){
+const deleteGenero = async function (id){
     try {
         let sql = `delete from tbl_genero where id = ${id}`
 
         result = await prisma.$executeRawUnsafe(sql)
+  
+        if(result)
+            return result
+        else 
+        return false 
     } catch (error) {
-        
+        return false
     }
 
 }
