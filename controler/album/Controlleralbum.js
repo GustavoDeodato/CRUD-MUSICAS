@@ -117,7 +117,7 @@ const listarAlbum = async function (){
     try {
         let dadosAlbum = {}
 
-        let arrayAlbuns = []
+        let arrayAlbum = []
 
         let resultAlbum = await albumDAO.selectAllAlbum()
 
@@ -125,17 +125,15 @@ const listarAlbum = async function (){
                     if(resultAlbum.length > 0){
                         //cria um json para colocar o array de album
                         dadosAlbum.status = true
-                        dadosAlbum.status_code = 200,
+                        dadosAlbum.status_code = 200
                         dadosAlbum.items = resultAlbum.length
-                        dadosAlbum.albuns = resultAlbum
-
                         //Percorrer o array de musicas para pegar cada ID de bandas
                                         // e descobrir quais os dados da banda
-                                        
-                                     
+                                         
                                         //Precisamos utilizar o for of, pois o foreach não consegue trabalhar com 
                                         // requisições async com await
                                         for(const itemAlbum of resultAlbum){
+                                         /* Monta o objeto da classificação para retornar no album (1XN) */
                                          //Busca os dados da classificação na controller de classificacao
                                             let dadosProdutora = await ControllerProdutora.buscarProdutora(itemAlbum.id_produtora)
                         
@@ -143,14 +141,15 @@ const listarAlbum = async function (){
                                             itemAlbum.produtora = dadosProdutora.produtora
                         
                                              //Remover um atributo do JSON
-                                            delete itemAlbum.id_produtora
+                                           // delete itemAlbum.id_produtora
                         
                                             //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
-                                            arrayAlbuns.push(itemAlbum)
+                                            arrayAlbum.push(itemAlbum)
                                         }
-                        
-                                    dadosAlbum.albuns = resultAlbum
-                        return dadosAlbum
+                            
+                            dadosAlbum.albums = arrayAlbum
+
+                            return dadosAlbum
                     }else{
                         return message.ERROR_NOT_FOUND //404
                     }

@@ -163,7 +163,7 @@ const listarMusica = async function (){
                     arrayMusicas.push(itemMusica)
                 }
 
-                dadosMusica.musics = resultMusica
+                dadosMusica.musics = arrayMusicas
                 return dadosMusica
             }else{
                 return message.ERROR_NOT_FOUND //404

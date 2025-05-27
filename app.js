@@ -385,7 +385,8 @@ app.post('/v1/controle-musica/album', cors (), bodyParserJSON, async function(re
     response.json(resultProdutora)
 
 })
-//daqui pra baixo ta tudo incompleto
+
+//não ta mostrando a 1xn
 //endpoint para listar todos os album
 app.get ('/v1/controler-musica/album', cors(), async function (request, response) {
     resultAlbum = await ControllerAlbum.listarAlbum()
@@ -394,14 +395,14 @@ app.get ('/v1/controler-musica/album', cors(), async function (request, response
     response.json(resultAlbum)
 })
 
-//Endpoint para buscar um produtora pelo ID 
-app.get('/v1/controler-musica/produtora/:id', cors(), async function(request, response){
-    let idProdutora = request.params.id 
+//Endpoint para buscar um album pelo ID 
+app.get('/v1/controler-musica/album/:id', cors(), async function(request, response){
+    let idAlbum = request.params.id 
 
-    let resultProdutora = await ControllerProdutora.buscarProdutora(idProdutora)
+    let resultAlbum = await ControllerAlbum.buscarAlbum(idAlbum)
 
-    response.status(resultProdutora.status_code)
-    response.json(resultProdutora)
+    response.status(resultAlbum.status_code)
+    response.json(resultAlbum)
 })
 
 //Endpoint para deletar uma album pelo id 
