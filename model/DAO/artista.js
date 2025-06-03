@@ -11,12 +11,12 @@ const {PrismaClient} = require('@prisma/client')
 //Instancia da classe do prisma client (cria um objeto)
 const prisma = new PrismaClient
 
-const insertInstrumento = async function (instrumento) {
+const insertArtista = async function (artista) {
     try {
-        let sql = `insert into tbl_instrumento (nome)
+        let sql = `insert into tbl_artista (nome)
 
         
-        values('${instrumento.nome}')`
+        values('${artista.nome}')`
 
     //Executa o script sql no banco de dados e aguarda o resultado (retornando true ou false)
     let result = await prisma.$executeRawUnsafe(sql)
@@ -33,12 +33,12 @@ const insertInstrumento = async function (instrumento) {
     }
 }
 
-//Função para atualizar uma instrumento existente 
-const updateInstrumento = async function (instrumento){
+//Função para atualizar uma artista existente 
+const updateArtista = async function (artista){
     try {
-        let sql = `update tbl_instrumento set nome = '${instrumento.nome}'
+        let sql = `update tbl_artista set nome = '${artista.nome}'
                                    
-        where id = '${instrumento.id}'`
+        where id = '${artista.id}'`
 
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -54,9 +54,9 @@ const updateInstrumento = async function (instrumento){
 
 
 //função para deletar uma album 
-const deleteInstrumento = async function (id){
+const deleteArtista = async function (id){
     try {
-        let sql = `delete from tbl_instrumento where id = ${id}`
+        let sql = `delete from tbl_artista where id = ${id}`
 
         result = await prisma.$executeRawUnsafe(sql)
   
@@ -71,9 +71,9 @@ const deleteInstrumento = async function (id){
 }
 
 //função para mostrar todas as album
-const selectAllInstrumento = async function (){
+const selectAllArtista = async function (){
     try {
-        sql = `select * from tbl_instrumento order by id desc`
+        sql = `select * from tbl_artista order by id desc`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -87,9 +87,9 @@ const selectAllInstrumento = async function (){
 }
 
 //função para busca pelo ID 
-const selectByIdInstrumento = async function (id){
+const selectByIdArtista = async function (id){
     try {
-        let sql = `select * from tbl_instrumento where id = ${id}`
+        let sql = `select * from tbl_artista where id = ${id}`
 
         let result = await prisma.$queryRawUnsafe(sql)
 
@@ -104,10 +104,9 @@ const selectByIdInstrumento = async function (id){
     }
 
 module.exports = {
-
-    insertInstrumento,
-    updateInstrumento,
-    selectAllInstrumento,
-    selectByIdInstrumento,
-    deleteInstrumento
+    insertArtista,
+    updateArtista,
+    selectAllArtista,
+    selectByIdArtista,
+    deleteArtista
 }

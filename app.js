@@ -60,6 +60,7 @@ const ControllerMusicaGenero = require('./controler/musica_genero/ControllerMusi
 const ControllerProdutora = require('./controler/produtora/Controllerprodutora.js')
 const ControllerAlbum = require('./controler/album/Controlleralbum.js')
 const ControllerInstrumento = require('./controler/instrumento/ControllerInstrumento.js')
+const ControllerArtista = require('./controler/artista/ControllerArtista.js')
 
 //Endpoint para inserir uma musica 
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON, async function(request, response){
@@ -304,9 +305,6 @@ app.put('/v1/controle-musica/musicagenero/:id', cors(), bodyParserJSON, async fu
     response.json(resultMusicaGenero)
 })
 
-app.listen('8080', function(){
-    console.log('API funcionando e aguardando requisições..')
-})
 
 ///////////////////////////////////////////////////////////////////  P R O D U T O R A    /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -448,7 +446,7 @@ app.post('/v1/controle-musica/instrumento', cors (), bodyParserJSON, async funct
 
 })
 
-//endpoint para listar todos os album
+//endpoint para listar todos os instrumento
 app.get ('/v1/controler-musica/instrumento', cors(), async function (request, response) {
     resultInstrumento = await ControllerInstrumento.listarInstrumento()
 
@@ -489,4 +487,69 @@ app.put('/v1/controle-musica/instrumento/:id', cors(), bodyParserJSON, async fun
 
     response.status(resultInstrumento.status_code)
     response.json(resultInstrumento)
+})
+
+/////////////////////////////////////////////////////////////////////////////////////// A R T I S T A S /////////////////////////////////////////////////////////////////////////////////////////
+
+// endpoint para inserir uma artista
+app.post('/v1/controle-musica/artista', cors (), bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    //recebe os dados do body da requisição 
+    let dadosbody = request.body
+   
+    //chama a função da controller para inserir os dados e agurada o retorno da função 
+    let resultArtista = await ControllerArtista.inserirArtista(dadosbody, contentType)
+
+    response.status(resultArtista.status_code)
+    response.json(resultArtista)
+
+})
+
+//endpoint para listar todos os artista
+app.get ('/v1/controler-musica/artista', cors(), async function (request, response) {
+    resultArtista = await ControllerArtista.listarArtistas()
+
+    response.status(resultArtista.status_code)
+    response.json(resultArtista)
+})
+
+//Endpoint para buscar um artista pelo ID 
+app.get('/v1/controler-musica/artista/:id', cors(), async function(request, response){
+    let idArtista = request.params.id 
+
+    let resultArtista = await ControllerArtista.buscarArtista(idArtista)
+
+    response.status(resultArtista.status_code)
+    response.json(resultArtista)
+})
+
+//Endpoint para deletar uma artista pelo id 
+app.delete('/v1/controler-musica/artista/:id', cors(), async function(request, response){
+    let idArtista = request.params.id
+
+    let resultArtista = await ControllerArtista.excluirArtista(idArtista)
+
+    response.status(resultArtista.status_code)
+    response.json(resultArtista)
+})
+
+//Endpoint para atualizar uma artista pelo id
+app.put('/v1/controle-musica/artista/:id', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let idArtista = request.params.id
+
+    //recebe os dados do corpo da requisição  
+    let dadosbody = request.body
+
+    let resultArtista = await ControllerArtista.atualizarArtista(idArtista, dadosbody, contentType)
+
+    response.status(resultArtista.status_code)
+    response.json(resultArtista)
+})
+
+app.listen('8080', function(){
+    console.log('API funcionando e aguardando requisições..')
 })
