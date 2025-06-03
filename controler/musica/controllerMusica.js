@@ -154,7 +154,7 @@ const listarMusica = async function (){
                     let dadosBanda = await controllerBanda.buscarBanda(itemMusica.id_banda)
 
                     //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
-                    itemMusica.banda = dadosBanda.banda
+                    itemMusica.bandas = dadosBanda.bandas
 
                      //Remover um atributo do JSON
                     delete itemMusica.id_banda

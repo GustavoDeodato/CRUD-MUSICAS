@@ -138,10 +138,10 @@ const listarAlbum = async function (){
                                             let dadosProdutora = await ControllerProdutora.buscarProdutora(itemAlbum.id_produtora)
                         
                                             //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
-                                            itemAlbum.produtora = dadosProdutora.produtora
+                                            itemAlbum.Produtoras = dadosProdutora.Produtoras
                         
-                                             //Remover um atributo do JSON
-                                           // delete itemAlbum.id_produtora
+                                            //Remover um atributo do JSON
+                                           delete itemAlbum.id_produtora
                         
                                             //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
                                             arrayAlbum.push(itemAlbum)

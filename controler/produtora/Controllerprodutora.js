@@ -122,7 +122,7 @@ const listarProdutora = async function (){
                         dadosProdutora.status = true
                         dadosProdutora.status_code = 200,
                         dadosProdutora.items = resultProdutora.length
-                        dadosProdutora.bandas = resultProdutora
+                        dadosProdutora.produtoras = resultProdutora
                         return dadosProdutora
                     }else{
                         return message.ERROR_NOT_FOUND //404
