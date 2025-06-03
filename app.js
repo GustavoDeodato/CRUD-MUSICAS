@@ -59,6 +59,7 @@ const ControllerGenero = require('./controler/genero/Controllergenero.js')
 const ControllerMusicaGenero = require('./controler/musica_genero/ControllerMusica_Genero.js')
 const ControllerProdutora = require('./controler/produtora/Controllerprodutora.js')
 const ControllerAlbum = require('./controler/album/Controlleralbum.js')
+const ControllerInstrumento = require('./controler/instrumento/ControllerInstrumento.js')
 
 //Endpoint para inserir uma musica 
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON, async function(request, response){
@@ -379,14 +380,13 @@ app.post('/v1/controle-musica/album', cors (), bodyParserJSON, async function(re
     let dadosbody = request.body
    
     //chama a função da controller para inserir os dados e agurada o retorno da função 
-    let resultProdutora = await ControllerAlbum.inserirAlbum(dadosbody, contentType)
+    let resultAlbum = await ControllerAlbum.inserirAlbum(dadosbody, contentType)
 
-    response.status(resultProdutora.status_code)
-    response.json(resultProdutora)
+    response.status(resultAlbum.status_code)
+    response.json(resultAlbum)
 
 })
 
-//não ta mostrando a 1xn
 //endpoint para listar todos os album
 app.get ('/v1/controler-musica/album', cors(), async function (request, response) {
     resultAlbum = await ControllerAlbum.listarAlbum()
@@ -407,25 +407,86 @@ app.get('/v1/controler-musica/album/:id', cors(), async function(request, respon
 
 //Endpoint para deletar uma album pelo id 
 app.delete('/v1/controler-musica/album/:id', cors(), async function(request, response){
-    let idprodutora = request.params.id
+    let idalbum = request.params.id
 
-    let resultProdutora = await ControllerProdutora.excluirProdutora(idprodutora)
+    let resultAlbum = await ControllerAlbum.excluirAlbum(idalbum)
 
-    response.status(resultProdutora.status_code)
-    response.json(resultProdutora)
+    response.status(resultAlbum.status_code)
+    response.json(resultAlbum)
 })
 
-//Endpoint para atualizar uma produtora pelo id
-app.put('/v1/controle-musica/produtora/:id', cors(), bodyParserJSON, async function(request, response){
+//Endpoint para atualizar uma album pelo id
+app.put('/v1/controle-musica/album/:id', cors(), bodyParserJSON, async function(request, response){
     let contentType = request.headers['content-type']
     
-    let idprodutora = request.params.id
+    let idalbum = request.params.id
 
     //recebe os dados do corpo da requisição  
     let dadosbody = request.body
 
-    let resultProdutora = await ControllerProdutora.atualizarProdutora(idprodutora, dadosbody, contentType)
+    let resultAlbum = await ControllerAlbum.atualizarAlbum(idalbum, dadosbody, contentType)
 
-    response.status(resultProdutora.status_code)
-    response.json(resultProdutora)
+    response.status(resultAlbum.status_code)
+    response.json(resultAlbum)
+})
+
+//////////////////////////////////////////////////////////////////// I N S T R U M E N T O S///////////////////////////////////////////////////////////////////////////////
+
+// endpoint para inserir uma album
+app.post('/v1/controle-musica/instrumento', cors (), bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    //recebe os dados do body da requisição 
+    let dadosbody = request.body
+   
+    //chama a função da controller para inserir os dados e agurada o retorno da função 
+    let resultInstrumento = await ControllerInstrumento.inserirInstrumento(dadosbody, contentType)
+
+    response.status(resultInstrumento.status_code)
+    response.json(resultInstrumento)
+
+})
+
+//endpoint para listar todos os album
+app.get ('/v1/controler-musica/instrumento', cors(), async function (request, response) {
+    resultInstrumento = await ControllerInstrumento.listarInstrumento()
+
+    response.status(resultInstrumento.status_code)
+    response.json(resultInstrumento)
+})
+
+//Endpoint para buscar um Instrumento pelo ID 
+app.get('/v1/controler-musica/instrumento/:id', cors(), async function(request, response){
+    let idInstrumento = request.params.id 
+
+    let resultInstrumento = await ControllerInstrumento.buscarInstrumento(idInstrumento)
+
+    response.status(resultInstrumento.status_code)
+    response.json(resultInstrumento)
+})
+
+//Endpoint para deletar uma instrumento pelo id 
+app.delete('/v1/controler-musica/instrumento/:id', cors(), async function(request, response){
+    let idInstrumento = request.params.id
+
+    let resultInstrumento = await ControllerInstrumento.excluirInstrumento(idInstrumento)
+
+    response.status(resultInstrumento.status_code)
+    response.json(resultInstrumento)
+})
+
+//Endpoint para atualizar uma instrumento pelo id
+app.put('/v1/controle-musica/instrumento/:id', cors(), bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let idInstrumento = request.params.id
+
+    //recebe os dados do corpo da requisição  
+    let dadosbody = request.body
+
+    let resultInstrumento = await ControllerInstrumento.atualizarInstrumento(idInstrumento, dadosbody, contentType)
+
+    response.status(resultInstrumento.status_code)
+    response.json(resultInstrumento)
 })
