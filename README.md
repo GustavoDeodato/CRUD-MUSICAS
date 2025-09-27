@@ -58,9 +58,12 @@ API REST construída em **Node.js + Express + Prisma**, no segundo ano do curso 
 curl -X POST http://localhost:8080/v1/controle-musicas/musica \
   -H "Content-Type: application/json" \
   -d '{
-        "nome": "Imagine",
-        "artista": "John Lennon",
-        "album": "Imagine",
-        "ano": 1971
-      }'
+    "nome": "Baby",
+    "duracao": "00:03:48",
+    "data_lancamento": "2010-01-18",
+    "letra": "baibe baibe oo",
+    "link": "http://baibe.mp3"
+
+}'
+
 
